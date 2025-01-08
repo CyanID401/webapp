@@ -70,16 +70,18 @@ jobs:
               exit 1
             fi
 
-    snyk:
-        runs-on: ubuntu-latest
-        needs: [gitleaks, api-unit-tests]
-        steps:
-          - name: Get the repo
-            uses: actions/checkout@v4
-    
-          - name: Run Snyk to check for vulnerabilities
-            uses: snyk/actions/python@master
-            env:
-                SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-            with:
-                args: --severity-threshold=high
+    snyk-python:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Get the repo
+          uses: actions/checkout@v4
+
+        - name: Workaround so it actually finds the requirements.txt
+          run: cp -p ./api/requirements.txt ./requirements.txt
+  
+        - name: Run Snyk to check for vulnerabilities
+          uses: snyk/actions/python@master
+          env:
+              SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          with:
+            args: --severity-threshold=high --file=api/requirements.txt --package-manager=pip --command=python3
