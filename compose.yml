@@ -1,0 +1,29 @@
+services:
+  db:
+    build: 
+      context: ./db
+    container_name: mysql-db
+    ports:
+      - "3306:3306"
+    volumes:
+      - /home/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+      MYSQL_DATABASE_FILE: /run/secrets/mysql_database
+      MYSQL_USER_FILE: /run/secrets/mysql_user
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+    secrets:
+      - mysql_root_password
+      - mysql_database
+      - mysql_user
+      - mysql_password
+
+secrets:
+  mysql_root_password:
+    file: ./secrets/db_root_password
+  mysql_database:
+    file: ./secrets/db_name
+  mysql_user:
+    file: ./secrets/db_user
+  mysql_password:
+    file: ./secrets/db_password
