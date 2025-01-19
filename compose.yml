@@ -48,6 +48,7 @@ services:
       - api
     environment:
       API_URL: http://api:8000
+      NEXT_PUBLIC_API_URL: http://frontend:3000/api
 
 secrets:
   mysql_root_password:

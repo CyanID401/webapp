@@ -51,9 +51,9 @@ $underline-offset: 4px;
   }
 
   li {
-    &:not(:last-of-type) {
-      margin-bottom: $gap-sm;
-    }
+    margin-top: $gap-sm;
+    margin-bottom: $gap-sm;
+    list-style-type: none;
   }
 }
 
