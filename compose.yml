@@ -38,6 +38,17 @@ services:
       - mysql_user
       - mysql_password
 
+  frontend:
+    build:
+      context: ./app
+    container_name: nextjs
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    environment:
+      API_URL: http://api:8000
+
 secrets:
   mysql_root_password:
     file: ./secrets/db_root_password
