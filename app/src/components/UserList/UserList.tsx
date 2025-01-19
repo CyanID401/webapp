@@ -19,16 +19,16 @@ export default function UserList() {
     if (resp) {
       const json = await resp.json();
       const { message } = json
-      switch (resp.status) {
-        case 200:
+      if (resp.status == 200) {
           console.log(message)
           setUsers(json.data)
           setLoading(false)
           return resp
-        default:
-          console.log('error:', message)
-          setLoading(false)
-          return resp
+      }
+      else  {
+        console.log('error:', message)
+        setLoading(false)
+        return resp
       }
     }
   }
