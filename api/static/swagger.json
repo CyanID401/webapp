@@ -1,0 +1,112 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Flask API",
+    "description": "An example API demonstrating user data retrieval"
+  },
+  "host": "localhost:8000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "paths": {
+    "/api": {
+      "get": {
+        "summary": "API Status",
+        "description": "Checks if the API is working",
+        "responses": {
+          "200": {
+            "description": "API is working",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "API is working!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user": {
+      "get": {
+        "summary": "Get All Users",
+        "description": "Retrieves all users from the database",
+        "responses": {
+          "200": {
+            "description": "A list of users",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No users found",
+            "schema": {
+              "type": "array",
+              "example": []
+            }
+          }
+        }
+      }
+    },
+    "/api/user/{id}": {
+      "get": {
+        "summary": "Get User by ID",
+        "description": "Retrieves a specific user by their ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "The ID of the user to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The user with the specified ID",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "example": "John Doe"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "User not found!"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

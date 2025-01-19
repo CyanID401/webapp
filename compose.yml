@@ -1,6 +1,6 @@
 services:
   db:
-    build: 
+    build:
       context: ./db
     container_name: mysql-db
     ports:
@@ -14,6 +14,26 @@ services:
       MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
     secrets:
       - mysql_root_password
+      - mysql_database
+      - mysql_user
+      - mysql_password
+
+  api:
+    build:
+      context: ./api
+    container_name: flask-api
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      API_PORT: 8000
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE_FILE: /run/secrets/mysql_database
+      MYSQL_USER_FILE: /run/secrets/mysql_user
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+    secrets:
       - mysql_database
       - mysql_user
       - mysql_password
