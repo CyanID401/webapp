@@ -1,0 +1,103 @@
+// SCSS Variables
+$gap-sm: 8px;
+$gap-md: 24px;
+$gap-lg: 32px;
+$gap-xl: 64px;
+$padding-xl: 80px;
+$font-size-sm: 14px;
+$line-height-md: 24px;
+$min-width-button: 180px;
+$underline-offset: 4px;
+
+.page {
+  --gray-rgb: 0, 0, 0;
+  --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
+  --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
+  --button-primary-hover: #383838;
+  --button-secondary-hover: #f2f2f2;
+
+  display: grid;
+  grid-template-rows: 20px 1fr 20px;
+  align-items: center;
+  justify-items: center;
+  min-height: 100svh;
+  padding: $padding-xl;
+  gap: $gap-xl;
+  font-family: var(--font-geist-sans);
+
+  @media (prefers-color-scheme: dark) {
+    --gray-rgb: 255, 255, 255;
+    --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
+    --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
+    --button-primary-hover: #ccc;
+    --button-secondary-hover: #1a1a1a;
+  }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-lg;
+  grid-row-start: 2;
+
+  ol {
+    font-family: var(--font-geist-mono);
+    padding-left: 0;
+    margin: 0;
+    font-size: $font-size-sm;
+    line-height: $line-height-md;
+    letter-spacing: -0.01em;
+    list-style-position: inside;
+  }
+
+  li {
+    margin-top: $gap-sm;
+    margin-bottom: $gap-sm;
+    list-style-type: none;
+  }
+}
+
+a {
+  &.primary {
+    background: var(--foreground);
+    color: var(--background);
+    gap: $gap-sm;
+  }
+
+  &.secondary {
+    border-color: var(--gray-alpha-200);
+    min-width: $min-width-button;
+  }
+}
+
+.footer {
+  grid-row-start: 3;
+  display: flex;
+  gap: $gap-md;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: $gap-sm;
+  }
+}
+
+/* Enable hover only on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+  a {
+    &.primary:hover {
+      background: var(--button-primary-hover);
+      border-color: transparent;
+    }
+
+    &.secondary:hover {
+      background: var(--button-secondary-hover);
+      border-color: transparent;
+    }
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+    text-underline-offset: $underline-offset;
+  }
+}
