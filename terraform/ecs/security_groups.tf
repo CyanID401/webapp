@@ -58,6 +58,26 @@ resource "aws_security_group" "ecs_nextjs_sg_service" {
   }
 }
 
+resource "aws_security_group" "frontend_alb_sg" {
+  name        = "frontend-alb-sg"
+  description = "Security group for the frontend ALB"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 output "ecs_mysql_sg_service_id" {
   value = aws_security_group.ecs_mysql_sg_service.id
   description = "The ID of the ECS MySQL Security Group"
@@ -70,5 +90,10 @@ output "ecs_api_sg_service_id" {
 
 output "ecs_nextjs_sg_service_id" {
   value = aws_security_group.ecs_nextjs_sg_service.id
+  description = "The ID of the ECS NextJS Security Group"
+}
+
+output "frontend_alb_sg_id" {
+  value = aws_security_group.frontend_alb_sg.id
   description = "The ID of the ECS NextJS Security Group"
 }

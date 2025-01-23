@@ -28,6 +28,11 @@ variable "frontend_image" {
   description = "The API image name"
 }
 
+variable "frontend_container_name" {
+  default = "nextjs-frontend"
+  description = "The name of the frontend container"
+}
+
 variable "db_details_secret" {
   default = "mysql-data-YUjwWU"
 }

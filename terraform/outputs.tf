@@ -23,3 +23,7 @@ output "vpc_private_subnets_ids" {
   description = "The IDs of the private subnets"
 }
 
+output "frontend_alb_dns_name" {
+  value       = module.ecs.frontend_alb_dns_name
+  description = "The DNS name of the ALB"
+}

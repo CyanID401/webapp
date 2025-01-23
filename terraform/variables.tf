@@ -11,7 +11,7 @@ variable "aws_account_id" {
 
 variable "azs" {
   type        = list(any)
-  default     = ["eu-north-1a"]
+  default     = ["eu-north-1a", "eu-north-1b"]
   description = "List of Availability Zones"
 }
 
@@ -27,12 +27,12 @@ variable "vpc_cidr" {
 
 variable "public_subnets_cidr" {
   type        = list(string)
-  default     = ["10.0.1.0/24"]
-  description = "CIDR block for Public Subnet"
+  default     = ["10.0.1.0/24", "10.0.2.0/24"]
+  description = "CIDR block for Public Subnets"
 }
 
 variable "private_subnets_cidr" {
   type        = list(string)
-  default     = ["10.0.9.0/24"]
-  description = "CIDR block for Private Subnet"
+  default     = ["10.0.9.0/24", "10.0.10.0/24"]
+  description = "CIDR block for Private Subnets"
 }

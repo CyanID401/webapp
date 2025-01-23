@@ -76,7 +76,7 @@ resource "aws_ecs_task_definition" "nextjs_task" {
 
   container_definitions = jsonencode([
     {
-      name      = "nextjs-frontend",
+      name      = "${var.frontend_container_name}",
       image     = "${var.frontend_image}",
       essential = true,
       portMappings = [
@@ -87,8 +87,7 @@ resource "aws_ecs_task_definition" "nextjs_task" {
         }
       ],
       environment = [
-        { name = "API_URL", value = "http://${aws_service_discovery_service.api_service_discovery.name}.${aws_service_discovery_private_dns_namespace.cluster_namespace.name}:8000" },
-        { name = "NEXT_PUBLIC_API_URL", value = "" }
+        { name = "API_URL", value = "http://${aws_service_discovery_service.api_service_discovery.name}.${aws_service_discovery_private_dns_namespace.cluster_namespace.name}:8000" }
       ]
     }
   ])

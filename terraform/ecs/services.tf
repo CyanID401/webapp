@@ -39,12 +39,17 @@ resource "aws_ecs_service" "ecs_nextjs_service" {
   name            = "nextjs-service"
   cluster         = aws_ecs_cluster.my_cluster.id
   task_definition = aws_ecs_task_definition.nextjs_task.arn
-  desired_count   = 1
+  desired_count   = 2
   launch_type     = "FARGATE"
 
+  load_balancer {
+    target_group_arn = aws_lb_target_group.frontend_alb_tg.arn
+    container_name   = var.frontend_container_name
+    container_port   = 3000
+  }
+
   network_configuration {
-    subnets         = var.vpc_public_subnets_ids
+    subnets         = var.vpc_private_subnets_ids
     security_groups = [aws_security_group.ecs_nextjs_sg_service.id]
-    assign_public_ip = true
   }
 }
