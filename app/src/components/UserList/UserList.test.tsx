@@ -38,7 +38,7 @@ describe('UserList Component', () => {
     });
 
     // Check that fetch was called with the correct URL
-    expect(fetch).toHaveBeenCalledWith('http://localhost:3000/api/user');
+    expect(fetch).toHaveBeenCalledWith('/api/user');
     expect(fetch).toHaveBeenCalledTimes(1);
   });
 
