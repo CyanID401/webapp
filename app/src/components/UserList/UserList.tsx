@@ -12,9 +12,7 @@ export default function UserList() {
   const [loading, setLoading] = useState<boolean>(true)
 
   const getUsers = async () => {
-    const PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api'
-
-    const resp = await fetch(`${PUBLIC_API_URL}/user`)
+    const resp = await fetch(`/api/user`)
 
     if (resp) {
       const json = await resp.json();
