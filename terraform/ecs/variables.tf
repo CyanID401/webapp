@@ -28,6 +28,10 @@ variable "frontend_image" {
   description = "The API image name"
 }
 
+variable "db_details_secret" {
+  default = "mysql-data-YUjwWU"
+}
+
 variable "vpc_id" {
   description = "The ID of the VPC"
   type        = string
