@@ -109,7 +109,7 @@ jobs:
         - name: Build and export
           uses: docker/build-push-action@v6
           with:
-            tags: ${{ secrets.DOCKERHUB_USER }}/flask-api:${{ github.sha }}
+            tags: ${{ secrets.DOCKERHUB_USER }}/flask-api:latest
             context: ./api
             cache-from: type=gha
             cache-to: type=gha,mode=max
@@ -135,7 +135,7 @@ jobs:
         - name: Build and export
           uses: docker/build-push-action@v6
           with:
-            tags: ${{ secrets.DOCKERHUB_USER }}/mysql-db:${{ github.sha }}
+            tags: ${{ secrets.DOCKERHUB_USER }}/mysql-db:latest
             context: ./db
             cache-from: type=gha
             cache-to: type=gha,mode=max

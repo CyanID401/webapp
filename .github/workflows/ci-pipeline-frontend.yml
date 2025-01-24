@@ -106,7 +106,7 @@ jobs:
         - name: Build and export
           uses: docker/build-push-action@v6
           with:
-            tags: ${{ secrets.DOCKERHUB_USER }}/nextjs-frontend:${{ github.sha }}
+            tags: ${{ secrets.DOCKERHUB_USER }}/nextjs-frontend:latest
             context: ./app
             cache-from: type=gha
             cache-to: type=gha,mode=max
