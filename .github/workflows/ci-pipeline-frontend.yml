@@ -1,0 +1,88 @@
+name: CI Pipeline Frontend
+run-name: "Triggered by @${{ github.actor }} on ${{ github.repository }} [${{ github.ref_name }}] - ${{ github.event_name }}"
+
+on:
+  pull_request:
+    branches:
+      - 'main'
+    paths:
+      - 'app/**'
+
+jobs:
+    gitleaks:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Get the repo
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+
+        - name: Run the gitleaks
+          uses: gitleaks/gitleaks-action@v2
+          env:
+            GITHUB_TOKEN: ${{ github.token }}
+
+    unit-tests:
+      runs-on: ubuntu-latest
+      needs: [gitleaks]
+      steps:
+        - name: Get the repo
+          uses: actions/checkout@v4
+
+        - name: Set up Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: '23.6.0'
+            cache-dependency-path: ./app/package-lock.json
+            cache: 'npm'
+        - run: npm install --prefix ./app
+
+        - name: Run the unit tests
+          run: npm test --prefix ./app
+
+    sonarqube:
+      runs-on: ubuntu-latest
+      needs: [unit-tests]
+      steps:
+        - name: Get the repo
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+
+        # Triggering SonarQube analysis as results of it are required by Quality Gate check.
+        - name: SonarQube Server Scan
+          uses: sonarsource/sonarqube-scan-action@master
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+        # Check the Quality Gate status.
+        - name: SonarQube Server Quality Gate check
+          id: sonarqube-quality-gate-check
+          uses: sonarsource/sonarqube-quality-gate-action@master
+          with:
+            pollingTimeoutSec: 600
+          env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+        - run: echo "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
+
+        - name: Quality Gate status check
+          run: |
+            if [[ "${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}" == "FAILED" ]]; then
+              echo "Quality Gate failed"
+              exit 1
+            fi
+
+    snyk:
+      runs-on: ubuntu-latest
+      needs: [unit-tests]
+      steps:
+        - name: Get the repo
+          uses: actions/checkout@v4
+
+        - name: Run Snyk to check for vulnerabilities
+          uses: snyk/actions/node@master
+          env:
+              SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          with:
+            args: --severity-threshold=high --file=app/package-lock.json --package-manager=npm
