@@ -1,14 +1,16 @@
 # Overview
-This project contains containerized Flask API, MySQL DB and Next.js front-end.
+This project contains containerized Flask API, MySQL DB and Next.js front-end. The project also contains Terraform code with which the infrastructure can be provissioned on AWS.
 
 # Development
 For development use docker compose.
 
 You must create a `secrets` dir in the root of the project and create the following files:
-- `db_name`
-- `db_password`
-- `db_root_password`
-- `db_user`
+```
+db_name
+db_password
+db_root_password
+db_user
+```
 
 Start the containers:
 ```
@@ -25,7 +27,7 @@ http://localhost:8000/api/docs
 ```
 
 # Production
-First you need to manually create a key/value secret in AWS Secrets Manager with the folloing keys:
+First you need to manually create a key/value secret in AWS Secrets Manager with the following keys:
 ```
 MYSQL_ROOT_PASSWORD
 MYSQL_DATABASE
