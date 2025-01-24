@@ -47,6 +47,7 @@ export default function UserList() {
             ))}
           </ul>
         }
+        <div>This change was delivered with CI/CD.</div>
       </div>
     </div>
   );
